@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 
@@ -54,7 +55,7 @@ namespace NZWalks.API.Repositories
             {
                 if (sortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
                 {
-                    walks = isAscending ? walks.OrderBy(x => x.Name): walks.OrderByDescending(x => x.Name);
+                    walks = isAscending ? walks.OrderBy(x => x.Name) : walks.OrderByDescending(x => x.Name);
                 }
                 else if (sortBy.Equals("Length", StringComparison.OrdinalIgnoreCase))
                 {
@@ -71,10 +72,12 @@ namespace NZWalks.API.Repositories
 
         public async Task<Walk?> GetByIdAsync(Guid id)
         {
+           
             return await dbContext.Walks
                 .Include("Difficulty")
                 .Include("Region")
                 .FirstOrDefaultAsync(x => x.Id == id);
+
         }
 
         public async Task<Walk?> UpdateAsync(Guid id, Walk walk)

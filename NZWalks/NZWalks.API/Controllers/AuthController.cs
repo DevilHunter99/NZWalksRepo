@@ -51,7 +51,7 @@ namespace NZWalks.API.Controllers
         }
 
 
-        // POST: /api/Auth/Login
+        //POST: /api/Auth/Login
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto)
