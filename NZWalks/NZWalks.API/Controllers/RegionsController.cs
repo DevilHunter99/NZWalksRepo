@@ -8,6 +8,7 @@ using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
 using NZWalks.Logger;
+using System.Diagnostics;
 
 namespace NZWalks.API.Controllers
 {
@@ -35,13 +36,29 @@ namespace NZWalks.API.Controllers
         // GET ALL REGIONS
         // GET: https://localhost:portnumber/api/regions
         [HttpGet]
-        [Authorize(Roles = "Reader")]
+        //[Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetAll()
         {
             _logger.LogInfo("Get All Regions");
+
+            Stopwatch stp = new Stopwatch();
+
+            stp.Start();
+
+            _logger.LogInfo("");
+
             // Get Data From Database - Domain models
             var regionsDomain = await regionRepository.GetAllAsync();
+
+            stp.Stop();
+
+            var elapsedtime = stp.Elapsed;
+
+            _logger.LogInfo($"elapsedtime");
+
             _logger.LogInfo("Regions");
+
+
             // Return DTOs
             return Ok(mapper.Map<List<RegionDto>>(regionsDomain));
 
